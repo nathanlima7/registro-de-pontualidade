@@ -46,6 +46,6 @@ const formatoData = `${dia}_${mes}_${ano}`;
 const nomeArquivo = `Registro_de_pontualidade 5_ano ${formatoData}.pdf`;
 
 function exportToPDF() {
-    const element = document.querySelector('.container');
+    const element = document.querySelector('.exportar');
     html2pdf().from(element).save(nomeArquivo);
 }
