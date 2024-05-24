@@ -12,7 +12,25 @@
     <div class="header"> <button id="fullscreen-btn">Tela Cheia</button></div> 
     <div class="container">
         <div class="exportar">
-            <h1>Registro de pontualidade dos alunos</h1><br> 
+            <h1>Registro de pontualidade dos alunos</h1>
+            <div class="selecao">
+                <div class="turnos">
+                    <label for="itens">Turno:</label>
+                    <select id="turnos">
+                        <option value="vazioTurno"></option>
+                        <option value="manha">MANHÃ</option>
+                        <option value="tarde">TARDE</option>
+                    </select>
+                </div>
+
+                <div class="turm">
+                    <label for="turma">Turma:</label>
+                    <select id="turmas">
+                        <option value="vazioTurma"></option>  
+                    </select>
+                </div>
+                <button id="carregar">Carregar</button>
+            </div>
             <ul id="student-list">
         </div>
         </ul><button id="export-btn">Exportar para PDF</button> 
