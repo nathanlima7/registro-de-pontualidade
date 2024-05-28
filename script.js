@@ -1,13 +1,22 @@
-//Atualiza o segundo seletor de acordo com a escolha do primeiro...
 document.addEventListener('DOMContentLoaded', () => {
-
     const turnoSeletor = document.getElementById('turnos');
     const turmaSeletor = document.getElementById('turmas');
+    const studentList = document.getElementById('student-list');
 
-    const opcoesManha = ['      ', '5º E.F', '6º E.F', '7º E.F', '8º E.F'];
-    const opcoesTarde = ['      ', '1º E.M', '2º E.M', '3º E.M'];
+    const opcoesManha = [' ', '6º ANO', '7º ANO', '8º ANO', '9º ANO'];
+    const opcoesTarde = [' ', '1º ANO', '2º ANO', '3º ANO'];
 
-    function attTurma(){
+    const alunosPorTurma = {
+        'manha_6º ano': ["Ana Silva", "Bruno Lima", "Carlos Oliveira"],
+        'manha_7º ano': ["Daniela Costa", "Eduardo Souza", "Fernanda Almeida"],
+        'manha_8º ano': ["Gabriel Ferreira", "Helena Martins", "Igor Rodrigues"],
+        'manha_9º ano': ["Juliana Santos", "Kleber Mendes", "Laura Gonçalves"],
+        'tarde_1º ano': ["Marcelo Ribeiro", "Nina Carvalho", "Otávio Melo"],
+        'tarde_2º ano': ["Patrícia Duarte", "Quirino Farias", "Rafaela Moura"],
+        'tarde_3º ano': ["Sérgio Barbosa", "Tatiane Araújo", "Ulisses Santana"]
+    };
+
+    function attTurma() {
         turmaSeletor.innerHTML = '';
 
         const opcoes = turnoSeletor.value === 'manha' ? opcoesManha : opcoesTarde;
@@ -20,29 +29,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function exibirAlunos() {
+        studentList.innerHTML = '';
+
+        const turno = turnoSeletor.value;
+        const turma = turmaSeletor.value.trim();
+
+        if (turno && turma) {
+            const chave = `${turno}_${turma}`;
+            const alunos = alunosPorTurma[chave];
+
+            if (alunos) {
+                alunos.forEach(aluno => {
+                    const listItem = document.createElement("li");
+                    listItem.innerHTML = `<span>${aluno}</span><button onclick="registerTime(this)">Registrar</button>`;
+                    studentList.appendChild(listItem);
+                });
+            }
+        }
+    }
+
     attTurma();
-
     turnoSeletor.addEventListener('change', attTurma);
-});
-
-document.addEventListener("DOMContentLoaded", function() {
-
-    const students = [
-        "Ana Silva", "Bruno Lima", "Carlos Oliveira", "Daniela Costa", "Eduardo Souza",
-        "Fernanda Almeida", "Gabriel Ferreira", "Helena Martins", "Igor Rodrigues", "Juliana Santos",
-        "Kleber Mendes", "Laura Gonçalves", "Marcelo Ribeiro", "Nina Carvalho", "Otávio Melo",
-        "Patrícia Duarte", "Quirino Farias", "Rafaela Moura", "Sérgio Barbosa", "Tatiane Araújo",
-        "Ulisses Santana", "Vanessa Nogueira", "Wagner Teixeira", "Xênia Silva", "Yuri Rocha",
-        "Zélia Franco", "Caio Pereira", "Diana Lima"
-    ];
-
-    const studentList = document.getElementById("student-list");
-
-    students.forEach(student => {
-        const listItem = document.createElement("li");
-        listItem.innerHTML = `<span>${student}</span><button onclick="registerTime(this)">Registrar</button>`;
-        studentList.appendChild(listItem);
-    });
+    turmaSeletor.addEventListener('change', exibirAlunos);
 
     document.getElementById("fullscreen-btn").addEventListener("click", toggleFullscreen);
     document.getElementById("export-btn").addEventListener("click", exportToPDF);
@@ -66,7 +75,7 @@ function toggleFullscreen() {
 
 const hoje = new Date();
 const dia = String(hoje.getDate()).padStart(2, '0');
-const mes = String(hoje.getMonth()+ 1).padStart(2, '0');
+const mes = String(hoje.getMonth() + 1).padStart(2, '0');
 const ano = hoje.getFullYear();
 
 const formatoData = `${dia}_${mes}_${ano}`;
@@ -74,6 +83,6 @@ const formatoData = `${dia}_${mes}_${ano}`;
 const nomeArquivo = `Registro_de_pontualidade ${formatoData}.pdf`;
 
 function exportToPDF() {
-    const element = document.querySelector('.exportar');
+    const element = document.querySelector('#student-list');
     html2pdf().from(element).save(nomeArquivo);
 }
